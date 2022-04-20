@@ -1,21 +1,19 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Pomelo.EntityFrameworkCore.MySql.Storage;
-using Pomelo.EntityFrameworkCore.MySql.Storage;
 using ServerVersion = Pomelo.EntityFrameworkCore.MySql.Storage.ServerVersion;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+using ProjectLicenta.Web.LicentaApi.Core.Interfaces;
+using ProjectLicenta.Web.LicentaApi.Core.Services;
+using ProjectLicenta.Web.LicentaApi.Core.Validators;
 using ProjectLicenta.Web.LicentaApi.Infrastructure.Data;
+using ProjectLicenta.Web.LicentaApi.Infrastructure.Repositories;
 
 namespace ProjectLicenta.Web.LicentaApi.Presentation
 {
@@ -28,9 +26,27 @@ namespace ProjectLicenta.Web.LicentaApi.Presentation
         }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers().ConfigureApiBehaviorOptions(options => { });
+            
+            services.AddScoped<IUtilizatorService, UtilizatorService>();
+            services.AddScoped<IUtilizatorRepository, UtilizatorRepository>();
+            services.AddSingleton<IUtilizatorValidator, UtilizatorValidator>();
+            
+            services.AddScoped<IAnuntService, AnuntService>();
+            services.AddScoped<IAnuntRepository, AnuntRepository>();
+            services.AddSingleton<IAnuntValidator, AnuntValidator>();
+
+            
+            
+            services.AddControllers().ConfigureApiBehaviorOptions(options => { }).AddNewtonsoftJson(t =>
+            {
+                t.SerializerSettings.MaxDepth = 128;
+                t.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
+            
             services.AddDbContext<DataContext>(options =>
             {
-                options.UseMySql(Configuration.GetConnectionString("DefaultConnection"),
+                options.UseMySql("server=localhost;port=3306;database=Licenta;user=root;password=abcdefg1",
                     builderOptions =>
                     {
                         builderOptions.MigrationsAssembly("ProjectLicenta.Web.LicentaApi.Presentation")
@@ -53,6 +69,7 @@ namespace ProjectLicenta.Web.LicentaApi.Presentation
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGet("/", async context => { await context.Response.WriteAsync("Hello World!"); });
+                endpoints.MapDefaultControllerRoute();
             });
         }
     }

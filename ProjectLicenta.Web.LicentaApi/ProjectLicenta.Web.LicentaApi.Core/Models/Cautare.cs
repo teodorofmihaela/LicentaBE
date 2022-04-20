@@ -2,13 +2,16 @@ using System;
 
 namespace ProjectLicenta.Web.LicentaApi.Core.Models
 {
-    public class Cautari:IEntity
+    public class Cautare:IEntity
     {
         public Guid Id { get; set; }
         public DateTime DataCautare { get; set; }
-        public int IdUtilizator { get; set; }
-        public int IdAnunt { get; set; }
+        public Guid IdUtilizator { get; set; }
+        public Guid IdAnunt { get; set; }
         public bool ProfilAccesat { get; set; }
         public float TimpPeProfil { get; set; }
+        // public Utilizator Utilizator { get; set; }
+        // public Anunturi Anunturi { get; set; }
+
     }
 }
