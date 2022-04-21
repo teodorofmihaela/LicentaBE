@@ -17,7 +17,7 @@ namespace ProjectLicenta.Web.LicentaApi.Core.Validators
             if (inputUtilizator.Nume.Length <= 1)
                 throw new ApiException
                 {
-                    ExceptionMessage = $"Name of utilizaotr {inputUtilizator.Nume} cannot be 1 character or less.",
+                    ExceptionMessage = $"Name of utilizator {inputUtilizator.Nume} cannot be 1 character or less.",
                     Severity = ExceptionSeverity.Error,
                     Type = ExceptionType.ValidationException
                 };

@@ -28,10 +28,6 @@ namespace ProjectLicenta.Web.LicentaApi.Presentation
         {
             services.AddControllers().ConfigureApiBehaviorOptions(options => { });
             
-            services.AddScoped<IUtilizatorService, UtilizatorService>();
-            services.AddScoped<IUtilizatorRepository, UtilizatorRepository>();
-            services.AddSingleton<IUtilizatorValidator, UtilizatorValidator>();
-            
             services.AddScoped<IAnuntService, AnuntService>();
             services.AddScoped<IAnuntRepository, AnuntRepository>();
             services.AddSingleton<IAnuntValidator, AnuntValidator>();
@@ -40,6 +36,25 @@ namespace ProjectLicenta.Web.LicentaApi.Presentation
             services.AddScoped<ICautareRepository, CautareRepository>();
             services.AddSingleton<ICautareValidator, CautareValidator>();
             
+            services.AddScoped<IAnuntPrestatService, AnuntPrestatService>();
+            services.AddScoped<IAnuntPrestatRepository, AnuntPrestatRepository>();
+            services.AddSingleton<IAnuntPrestatValidator, AnuntPrestatValidator>();
+            
+            services.AddScoped<IFeedbackService, FeedbackService>();
+            services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+            services.AddSingleton<IFeedbackValidator, FeedbackValidator>();
+            
+            services.AddScoped<IServiciuService, ServiciuService>();
+            services.AddScoped<IServiciuRepository, ServiciuRepository>();
+            services.AddSingleton<IServiciuValidator, ServiciuValidator>();
+            
+            services.AddScoped<IUtilizatorService, UtilizatorService>();
+            services.AddScoped<IUtilizatorRepository, UtilizatorRepository>();
+            services.AddSingleton<IUtilizatorValidator, UtilizatorValidator>();
+            
+            services.AddScoped<IUtilizatorFavoritService, UtilizatorFavoritService>();
+            services.AddScoped<IUtilizatorFavoritRepository, UtilizatorFavoritRepository>();
+            services.AddSingleton<IUtilizatorFavoritValidator, UtilizatorFavoritValidator>();
             
             services.AddControllers().ConfigureApiBehaviorOptions(options => { }).AddNewtonsoftJson(t =>
             {

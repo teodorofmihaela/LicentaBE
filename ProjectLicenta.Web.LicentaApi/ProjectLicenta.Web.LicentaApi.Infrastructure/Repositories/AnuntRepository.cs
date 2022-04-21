@@ -25,6 +25,7 @@ namespace ProjectLicenta.Web.LicentaApi.Infrastructure.Repositories
                 .Skip(skip)
                 .Take(pagination)
                 .Include(a => a.Utilizator)
+                //TODO-> INCLUDERE UN ALT OBIECT PT GET
                 .ToListAsync();
         }
         
