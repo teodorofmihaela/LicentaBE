@@ -19,11 +19,11 @@ namespace ProjectLicenta.Web.LicentaApi.Core.Models
         public bool Negociabil{ get; set; }
         public bool Prestator{ get; set; }
         
-        public Guid IdUtilizator{ get; set; }
-        public Utilizator Utilizator { get; set; }
+        public Guid UtilizatorId{ get; set; }
+        public Utilizator? Utilizator { get; set; }
         /*
-        public Servicii Servicii { get; set; }
-        public List<Cautari>? CautariList { get; set; }*/
+        public Servicii Servicii { get; set; }*/
+        public List<Cautare>? CautariList { get; set; }
 
 
     }

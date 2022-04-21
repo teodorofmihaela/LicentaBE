@@ -10,42 +10,39 @@ using ProjectLicenta.Web.LicentaApi.Infrastructure.Data;
 
 namespace ProjectLicenta.Web.LicentaApi.Infrastructure.Repositories
 {
-    public class AnuntRepository:IAnuntRepository
+    public class CautareRepository : ICautareRepository
     {
         private readonly DataContext _dataContext;
 
-        public AnuntRepository(DataContext dataContext)
+        public CautareRepository(DataContext dataContext)
         {
             _dataContext = dataContext;
         }
-        
-        public async Task<List<Anunt>> GetAllAnunturi(AnuntFilter filter, int pagination = 50, int skip = 0)
+
+        public async Task<List<Cautare>> GetAllCautari(CautareFilter filter, int pagination = 50, int skip = 0)
         {
-            return await filter.Filter(_dataContext.Anunturi.AsQueryable())
-                .Skip(skip)
-                .Take(pagination)
-                .Include(a => a.Utilizator)
-                .ToListAsync();
+            return await filter.Filter(_dataContext.Cautari.AsQueryable())
+                .Skip(skip).Take(pagination).ToListAsync();
         }
-        
-        public async Task<bool> CreateAnunt(Anunt inputAnunt)
+
+        public async Task<bool> CreateCautare(Cautare inputCautare)
         {
-            await _dataContext.Anunturi.AddAsync(inputAnunt);
+            await _dataContext.Cautari.AddAsync(inputCautare);
             await _dataContext.SaveChangesAsync();
             return true;
         }
 
-        public async Task<bool> DeleteAnunt(Guid id)
+        public async Task<bool> DeleteCautare(Guid id)
         {
-            _dataContext.Anunturi.Remove(await _dataContext.Anunturi.FirstOrDefaultAsync(Anunt => Anunt.Id.Equals(id)));
+            _dataContext.Cautari.Remove(await _dataContext.Cautari.FirstOrDefaultAsync(Cautare => Cautare.Id.Equals(id)));
             
             await _dataContext.SaveChangesAsync();
             return true;
         }
 
-        public async Task<bool> UpdateAnunt(Anunt inputAnunt)
+        public async Task<bool> UpdateCautare(Cautare inputCautare)
         {
-            _dataContext.Anunturi.Update(inputAnunt);
+            _dataContext.Cautari.Update(inputCautare);
 
             await _dataContext.SaveChangesAsync();
             return true;

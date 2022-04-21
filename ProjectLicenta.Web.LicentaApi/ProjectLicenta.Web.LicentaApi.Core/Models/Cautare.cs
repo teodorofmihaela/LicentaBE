@@ -11,7 +11,7 @@ namespace ProjectLicenta.Web.LicentaApi.Core.Models
         public bool ProfilAccesat { get; set; }
         public float TimpPeProfil { get; set; }
         // public Utilizator Utilizator { get; set; }
-        // public Anunturi Anunturi { get; set; }
+        public Anunt Anunturi { get; set; }
 
     }
 }

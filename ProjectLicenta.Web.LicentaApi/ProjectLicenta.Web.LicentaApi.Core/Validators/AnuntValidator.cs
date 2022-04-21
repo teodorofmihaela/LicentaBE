@@ -17,7 +17,7 @@ namespace ProjectLicenta.Web.LicentaApi.Core.Validators
             if (inputAnunt.Text.Length <= 1)
                 throw new ApiException
                 {
-                    ExceptionMessage = $"Category's Name {inputAnunt.Text} cannot be 1 character or less.",
+                    ExceptionMessage = $"Text of anunt {inputAnunt.Text} cannot be 1 character or less.",
                     Severity = ExceptionSeverity.Error,
                     Type = ExceptionType.ValidationException
                 };

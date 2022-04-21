@@ -6,27 +6,27 @@ using ProjectLicenta.Web.LicentaApi.Core.Models;
 
 namespace ProjectLicenta.Web.LicentaApi.Core.Filters
 {
-    public class CautareFilter
+    public class AnuntPrestatFilter
     {
-        public string ToSearch { get; set; }//filtrare dupa nume serviciu
+        public string ToSearch { get; set; }//filtrare dupa idUtilizator
 
         public List<Guid> Ids { get; set; }
 
         public bool PerfectMatch { get; set; } // by default false
 
 
-        public IQueryable<Cautare> Filter(IQueryable<Cautare> cautareQuery)
+        public IQueryable<AnuntPrestat> Filter(IQueryable<AnuntPrestat> anuntPrestatQuery)
         {
             if (!string.IsNullOrEmpty(ToSearch))
             {
                 if (!PerfectMatch)
                     ToSearch = new string($"%{ToSearch}%");
-                //cautareQuery = cautareQuery.Where(cautare => EF.Functions.Like(cautare., ToSearch));
+                // anuntPrestatQuery = anuntPrestatQuery.Where(anuntPrestat => EF.Functions.Like(anuntPrestat.IdUtilizator, ToSearch));
             }
 
             if (Ids != null && Ids.Count != 0)
-                cautareQuery = cautareQuery.Where(cautare => Ids.Contains(cautare.Id));
-            return cautareQuery;
+                anuntPrestatQuery = anuntPrestatQuery.Where(anuntPrestat => Ids.Contains(anuntPrestat.Id));
+            return anuntPrestatQuery;
         }
     }
 }
