@@ -38,7 +38,7 @@ namespace ProjectLicenta.Web.LicentaApi.Infrastructure.Data
             modelBuilder.Entity<Anunt>()
                 .HasOne<Utilizator>(u => u.Utilizator)
                 .WithMany(a => a.AnunturiList)
-                .HasForeignKey(u => u.IdUtilizator);
+                .HasForeignKey(u => u.UtilizatorId);
             /*
             // Servicii has many Anunturi
             modelBuilder.Entity<Anunt>()
@@ -46,24 +46,24 @@ namespace ProjectLicenta.Web.LicentaApi.Infrastructure.Data
                 .WithMany(a => a.AnunturiList)
                 .HasForeignKey(a => a.IdServiciu);
             */
-            // Utilizator has many FeedBacks
-            modelBuilder.Entity<Feedback>()
-                .HasOne<Utilizator>(u => u.Utilizator)
-                .WithMany(f => f.FeedbacksList)
-                .HasForeignKey(u => u.IdUtilizatorPrimit);
+            // // Utilizator has many FeedBacks
+            // modelBuilder.Entity<Feedback>()
+            //     .HasOne<Utilizator>(u => u.Utilizator)
+            //     .WithMany(f => f.FeedbacksList)
+            //     .HasForeignKey(u => u.IdUtilizatorPrimit);
             /*
             // Utilizator has many AnunturiPrestate
             modelBuilder.Entity<AnuntPrestat>()
                 .HasOne<Utilizator>(u => u.Utilizator)
                 .WithMany(a => a.AnunturiPrestateList)
                 .HasForeignKey(u => u.IdUtilizator);
-            
-            // Cautari has many Anunturi
-            modelBuilder.Entity<Cautare>()
-                .HasOne<Anunt>(a => a.Anunt)
-                .WithMany(c => c.CautariList)
-                .HasForeignKey(a => a.IdAnunt);
-            
+            */
+            // // Cautari has many Anunturi
+            // modelBuilder.Entity<Cautare>()
+            //     .HasOne<Anunt>(a => a.Anunturi)
+            //     .WithMany(c => c.CautariList)
+            //     .HasForeignKey(a => a.IdAnunt);
+            /*
             // Cautari has many Utilizatori
             modelBuilder.Entity<Cautare>()
                 .HasOne<Utilizator>(u => u.Utilizator)

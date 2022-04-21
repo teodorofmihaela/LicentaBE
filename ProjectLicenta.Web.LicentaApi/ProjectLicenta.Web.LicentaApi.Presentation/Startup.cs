@@ -36,6 +36,9 @@ namespace ProjectLicenta.Web.LicentaApi.Presentation
             services.AddScoped<IAnuntRepository, AnuntRepository>();
             services.AddSingleton<IAnuntValidator, AnuntValidator>();
 
+            services.AddScoped<ICautareService, CautareService>();
+            services.AddScoped<ICautareRepository, CautareRepository>();
+            services.AddSingleton<ICautareValidator, CautareValidator>();
             
             
             services.AddControllers().ConfigureApiBehaviorOptions(options => { }).AddNewtonsoftJson(t =>
