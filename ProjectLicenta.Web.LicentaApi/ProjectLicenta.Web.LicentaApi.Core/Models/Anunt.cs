@@ -9,8 +9,6 @@ namespace ProjectLicenta.Web.LicentaApi.Core.Models
     {
         public Guid Id { get; set; }
         [Required]
-        public Guid IdServiciu { get; set; } 
-        [Required]
         [Column(TypeName = "varchar(256)")]public string Titlu { get; set; }
         public string Text { get; set; }
         public DateTime DataPostare { get; set; }
@@ -19,12 +17,10 @@ namespace ProjectLicenta.Web.LicentaApi.Core.Models
         public bool Negociabil{ get; set; }
         public bool Prestator{ get; set; }
         
+        public Guid ServiciuId { get; set; }
+        public Serviciu Serviciu { get; set; }
+        
         public Guid UtilizatorId{ get; set; }
-        public Utilizator? Utilizator { get; set; }
-        /*
-        public Servicii Servicii { get; set; }*/
-        public List<Cautare>? CautariList { get; set; }
-
-
+        public Utilizator Utilizator { get; set; }
     }
 }

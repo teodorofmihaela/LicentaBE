@@ -6,12 +6,11 @@ namespace ProjectLicenta.Web.LicentaApi.Core.Models
     {
         public Guid Id { get; set; }
         public DateTime DataCautare { get; set; }
-        public Guid IdUtilizator { get; set; }
-        public Guid IdAnunt { get; set; }
         public bool ProfilAccesat { get; set; }
         public float TimpPeProfil { get; set; }
-        // public Utilizator Utilizator { get; set; }
-        public Anunt Anunturi { get; set; }
-
+        public Guid AnuntId { get; set; }
+        
+        public Guid UtilizatorId { get; set; }
+        public Utilizator Utilizator { get; set; }
     }
 }

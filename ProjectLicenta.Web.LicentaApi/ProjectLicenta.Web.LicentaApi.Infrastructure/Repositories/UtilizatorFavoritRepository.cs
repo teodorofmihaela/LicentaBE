@@ -19,14 +19,14 @@ namespace ProjectLicenta.Web.LicentaApi.Infrastructure.Repositories
             _dataContext = dataContext;
         }
 
-        public async Task<List<UtilizatorFavorit>> GetAllUtilizatoriFavoriti(UtilizatorFavoritFilter filter, int pagination = 50, int skip = 0)
+        public async Task<List<AnuntFavorit>> GetAllUtilizatoriFavoriti(UtilizatorFavoritFilter filter, int pagination = 50, int skip = 0)
         {
             return await filter.Filter(_dataContext.UtilizatoriFavoriti.AsQueryable()).Skip(skip).Take(pagination).ToListAsync();
         }
 
-        public async Task<bool> CreateUtilizatorFavorit(UtilizatorFavorit inputUtilizatorFavorit)
+        public async Task<bool> CreateUtilizatorFavorit(AnuntFavorit inputAnuntFavorit)
         {
-            await _dataContext.UtilizatoriFavoriti.AddAsync(inputUtilizatorFavorit);
+            await _dataContext.UtilizatoriFavoriti.AddAsync(inputAnuntFavorit);
             await _dataContext.SaveChangesAsync();
             return true;
         }
@@ -39,9 +39,9 @@ namespace ProjectLicenta.Web.LicentaApi.Infrastructure.Repositories
             return true;
         }
 
-        public async Task<bool> UpdateUtilizatorFavorit(UtilizatorFavorit inputUtilizatorFavorit)
+        public async Task<bool> UpdateUtilizatorFavorit(AnuntFavorit inputAnuntFavorit)
         {
-            _dataContext.UtilizatoriFavoriti.Update(inputUtilizatorFavorit);
+            _dataContext.UtilizatoriFavoriti.Update(inputAnuntFavorit);
 
             await _dataContext.SaveChangesAsync();
             return true;

@@ -29,9 +29,6 @@ namespace ProjectLicenta.Web.LicentaApi.Presentation.Migrations
                     b.Property<DateTime>("DataPostare")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("IdServiciu")
-                        .HasColumnType("char(36)");
-
                     b.Property<bool>("Negociabil")
                         .HasColumnType("tinyint(1)");
 
@@ -40,6 +37,9 @@ namespace ProjectLicenta.Web.LicentaApi.Presentation.Migrations
 
                     b.Property<int>("Pret")
                         .HasColumnType("int");
+
+                    b.Property<Guid>("ServiciuId")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -54,9 +54,32 @@ namespace ProjectLicenta.Web.LicentaApi.Presentation.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ServiciuId");
+
                     b.HasIndex("UtilizatorId");
 
                     b.ToTable("Anunturi");
+                });
+
+            modelBuilder.Entity("ProjectLicenta.Web.LicentaApi.Core.Models.AnuntFavorit", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("AnuntId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UtilizatorId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnuntId");
+
+                    b.HasIndex("UtilizatorId");
+
+                    b.ToTable("UtilizatoriFavoriti");
                 });
 
             modelBuilder.Entity("ProjectLicenta.Web.LicentaApi.Core.Models.AnuntPrestat", b =>
@@ -65,16 +88,20 @@ namespace ProjectLicenta.Web.LicentaApi.Presentation.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<Guid>("AnuntId")
+                        .HasColumnType("char(36)");
+
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("IdAnunt")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("IdUtilizator")
+                    b.Property<Guid>("UtilizatorId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AnuntId");
+
+                    b.HasIndex("UtilizatorId");
 
                     b.ToTable("AnunturiPrestate");
                 });
@@ -85,17 +112,11 @@ namespace ProjectLicenta.Web.LicentaApi.Presentation.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("AnunturiId")
+                    b.Property<Guid>("AnuntId")
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime>("DataCautare")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<Guid>("IdAnunt")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("IdUtilizator")
-                        .HasColumnType("char(36)");
 
                     b.Property<bool>("ProfilAccesat")
                         .HasColumnType("tinyint(1)");
@@ -103,9 +124,12 @@ namespace ProjectLicenta.Web.LicentaApi.Presentation.Migrations
                     b.Property<float>("TimpPeProfil")
                         .HasColumnType("float");
 
+                    b.Property<Guid>("UtilizatorId")
+                        .HasColumnType("char(36)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AnunturiId");
+                    b.HasIndex("UtilizatorId");
 
                     b.ToTable("Cautari");
                 });
@@ -116,20 +140,17 @@ namespace ProjectLicenta.Web.LicentaApi.Presentation.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<Guid>("AnuntId")
+                        .HasColumnType("char(36)");
+
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("IdServiciu")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("IdUtilizatorDat")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("IdUtilizatorPrimit")
-                        .HasColumnType("char(36)");
-
                     b.Property<int>("NrStele")
                         .HasColumnType("int");
+
+                    b.Property<Guid>("ServiciuId")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -143,6 +164,10 @@ namespace ProjectLicenta.Web.LicentaApi.Presentation.Migrations
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AnuntId");
+
+                    b.HasIndex("ServiciuId");
 
                     b.HasIndex("UtilizatorId");
 
@@ -198,22 +223,14 @@ namespace ProjectLicenta.Web.LicentaApi.Presentation.Migrations
                     b.ToTable("Utilizatori");
                 });
 
-            modelBuilder.Entity("ProjectLicenta.Web.LicentaApi.Core.Models.UtilizatorFavorit", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("IdUtilizatorFavorit")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UtilizatoriFavoriti");
-                });
-
             modelBuilder.Entity("ProjectLicenta.Web.LicentaApi.Core.Models.Anunt", b =>
                 {
+                    b.HasOne("ProjectLicenta.Web.LicentaApi.Core.Models.Serviciu", "Serviciu")
+                        .WithMany("AnunturiList")
+                        .HasForeignKey("ServiciuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ProjectLicenta.Web.LicentaApi.Core.Models.Utilizator", "Utilizator")
                         .WithMany("AnunturiList")
                         .HasForeignKey("UtilizatorId")
@@ -221,19 +238,61 @@ namespace ProjectLicenta.Web.LicentaApi.Presentation.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ProjectLicenta.Web.LicentaApi.Core.Models.AnuntFavorit", b =>
+                {
+                    b.HasOne("ProjectLicenta.Web.LicentaApi.Core.Models.Anunt", "Anunt")
+                        .WithMany()
+                        .HasForeignKey("AnuntId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProjectLicenta.Web.LicentaApi.Core.Models.Utilizator", "Utilizator")
+                        .WithMany("AnunturiFavoriteList")
+                        .HasForeignKey("UtilizatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ProjectLicenta.Web.LicentaApi.Core.Models.AnuntPrestat", b =>
+                {
+                    b.HasOne("ProjectLicenta.Web.LicentaApi.Core.Models.Anunt", "Anunt")
+                        .WithMany()
+                        .HasForeignKey("AnuntId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProjectLicenta.Web.LicentaApi.Core.Models.Utilizator", "Utilizator")
+                        .WithMany("AnunturiPrestateList")
+                        .HasForeignKey("UtilizatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ProjectLicenta.Web.LicentaApi.Core.Models.Cautare", b =>
                 {
-                    b.HasOne("ProjectLicenta.Web.LicentaApi.Core.Models.Anunt", "Anunturi")
-                        .WithMany("CautariList")
-                        .HasForeignKey("AnunturiId")
+                    b.HasOne("ProjectLicenta.Web.LicentaApi.Core.Models.Utilizator", "Utilizator")
+                        .WithMany()
+                        .HasForeignKey("UtilizatorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("ProjectLicenta.Web.LicentaApi.Core.Models.Feedback", b =>
                 {
+                    b.HasOne("ProjectLicenta.Web.LicentaApi.Core.Models.Anunt", "Anunt")
+                        .WithMany()
+                        .HasForeignKey("AnuntId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProjectLicenta.Web.LicentaApi.Core.Models.Serviciu", "Serviciu")
+                        .WithMany()
+                        .HasForeignKey("ServiciuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ProjectLicenta.Web.LicentaApi.Core.Models.Utilizator", "Utilizator")
-                        .WithMany("FeedbacksList")
+                        .WithMany("FeedbacksDateList")
                         .HasForeignKey("UtilizatorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

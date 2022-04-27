@@ -9,10 +9,10 @@ namespace ProjectLicenta.Web.LicentaApi.Core.Validators
     {
         public bool Validate(IEntity entity)
         {
-            return ValidateNume((UtilizatorFavorit) entity);
+            return ValidateNume((AnuntFavorit) entity);
         }
 
-        public static bool ValidateNume(UtilizatorFavorit inputUtilizatorFavorit)
+        public static bool ValidateNume(AnuntFavorit inputAnuntFavorit)
         {
             // if (inputUtilizatorFavorit.Nume.Length <= 1)
             //     throw new ApiException

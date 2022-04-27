@@ -15,7 +15,7 @@ namespace ProjectLicenta.Web.LicentaApi.Core.Filters
         public bool PerfectMatch { get; set; } // by default false
 
 
-        public IQueryable<UtilizatorFavorit> Filter(IQueryable<UtilizatorFavorit> utilizatorFavoritQuery)
+        public IQueryable<AnuntFavorit> Filter(IQueryable<AnuntFavorit> utilizatorFavoritQuery)
         {
             if (!string.IsNullOrEmpty(ToSearch))
             {

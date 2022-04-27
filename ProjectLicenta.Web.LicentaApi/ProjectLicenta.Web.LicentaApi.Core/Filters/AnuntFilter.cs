@@ -21,7 +21,7 @@ namespace ProjectLicenta.Web.LicentaApi.Core.Filters
             {
                 if (!PerfectMatch)
                     ToSearch = new string($"%{ToSearch}%");
-                anuntQuery = anuntQuery.Where(anunt => EF.Functions.Like(anunt.IdServiciu, ToSearch));
+                anuntQuery = anuntQuery.Where(anunt => EF.Functions.Like(anunt.ServiciuId, ToSearch));
             }
 
             if (Ids != null && Ids.Count != 0)

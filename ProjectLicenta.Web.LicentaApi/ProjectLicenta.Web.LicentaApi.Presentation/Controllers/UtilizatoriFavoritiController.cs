@@ -25,7 +25,7 @@ namespace ProjectLicenta.Web.LicentaApi.Presentation.Controllers
         }
 
         [HttpGet]
-        public async Task<List<UtilizatorFavorit>> GetUtilizatorFavorit([FromQuery] string toSearch, [FromQuery] Guid[] guids,
+        public async Task<List<AnuntFavorit>> GetUtilizatorFavorit([FromQuery] string toSearch, [FromQuery] Guid[] guids,
             [FromQuery] int pagination = 50, [FromQuery] int skip = 0)
         {
             try
@@ -46,7 +46,7 @@ namespace ProjectLicenta.Web.LicentaApi.Presentation.Controllers
 
         [HttpPost]
         [Route("/[controller]/add")]
-        public async Task<bool> AddUtilizatorFavorit([FromBody] List<UtilizatorFavorit> utilizatorFavoritList)
+        public async Task<bool> AddUtilizatorFavorit([FromBody] List<AnuntFavorit> utilizatorFavoritList)
         {
             var result = true;
             foreach (var utilizatorFavorit in utilizatorFavoritList)
@@ -91,7 +91,7 @@ namespace ProjectLicenta.Web.LicentaApi.Presentation.Controllers
 
         [HttpPut]
         [Route("/[controller]/update")]
-        public async Task<bool> UpdateUtilizatorFavorit([FromBody] List<UtilizatorFavorit> utilizatorFavoritList)
+        public async Task<bool> UpdateUtilizatorFavorit([FromBody] List<AnuntFavorit> utilizatorFavoritList)
         {
             var result = true;
             foreach (var utilizatorFavorit in utilizatorFavoritList)

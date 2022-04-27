@@ -3,13 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProjectLicenta.Web.LicentaApi.Presentation.Migrations
 {
-    public partial class SecondMigration : Migration
+    public partial class AddedRelationsMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Users");
-
             migrationBuilder.CreateTable(
                 name: "Servicii",
                 columns: table => new
@@ -44,7 +41,6 @@ namespace ProjectLicenta.Web.LicentaApi.Presentation.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    IdServiciu = table.Column<Guid>(nullable: false),
                     Titlu = table.Column<string>(type: "varchar(256)", nullable: false),
                     Text = table.Column<string>(nullable: false),
                     DataPostare = table.Column<DateTime>(nullable: false),
@@ -52,82 +48,21 @@ namespace ProjectLicenta.Web.LicentaApi.Presentation.Migrations
                     Pret = table.Column<int>(nullable: false),
                     Negociabil = table.Column<bool>(nullable: false),
                     Prestator = table.Column<bool>(nullable: false),
-                    IdUtilizator = table.Column<Guid>(nullable: false)
+                    ServiciuId = table.Column<Guid>(nullable: false),
+                    UtilizatorId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Anunturi", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Anunturi_Servicii_IdServiciu",
-                        column: x => x.IdServiciu,
+                        name: "FK_Anunturi_Servicii_ServiciuId",
+                        column: x => x.ServiciuId,
                         principalTable: "Servicii",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Anunturi_Utilizatori_IdUtilizator",
-                        column: x => x.IdUtilizator,
-                        principalTable: "Utilizatori",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AnunturiPrestate",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    IdUtilizator = table.Column<Guid>(nullable: false),
-                    IdAnunt = table.Column<Guid>(nullable: false),
-                    Data = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AnunturiPrestate", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AnunturiPrestate_Utilizatori_IdUtilizator",
-                        column: x => x.IdUtilizator,
-                        principalTable: "Utilizatori",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "FeedBacks",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    IdUtilizatorDat = table.Column<Guid>(nullable: false),
-                    IdUtilizatorPrimit = table.Column<Guid>(nullable: false),
-                    Titlu = table.Column<string>(nullable: false),
-                    Text = table.Column<string>(nullable: false),
-                    IdServiciu = table.Column<Guid>(nullable: false),
-                    NrStele = table.Column<int>(nullable: false),
-                    Data = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FeedBacks", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_FeedBacks_Utilizatori_IdUtilizatorPrimit",
-                        column: x => x.IdUtilizatorPrimit,
-                        principalTable: "Utilizatori",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UtilizatoriFavoriti",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    IdUtilizatorFavorit = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UtilizatoriFavoriti", x => new { x.Id, x.IdUtilizatorFavorit });
-                    table.ForeignKey(
-                        name: "FK_UtilizatoriFavoriti_Utilizatori_IdUtilizatorFavorit",
-                        column: x => x.IdUtilizatorFavorit,
+                        name: "FK_Anunturi_Utilizatori_UtilizatorId",
+                        column: x => x.UtilizatorId,
                         principalTable: "Utilizatori",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -139,62 +74,158 @@ namespace ProjectLicenta.Web.LicentaApi.Presentation.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     DataCautare = table.Column<DateTime>(nullable: false),
-                    IdUtilizator = table.Column<Guid>(nullable: false),
-                    IdAnunt = table.Column<Guid>(nullable: false),
                     ProfilAccesat = table.Column<bool>(nullable: false),
-                    TimpPeProfil = table.Column<float>(nullable: false)
+                    TimpPeProfil = table.Column<float>(nullable: false),
+                    AnuntId = table.Column<Guid>(nullable: false),
+                    UtilizatorId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cautari", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cautari_Anunturi_IdAnunt",
-                        column: x => x.IdAnunt,
+                        name: "FK_Cautari_Utilizatori_UtilizatorId",
+                        column: x => x.UtilizatorId,
+                        principalTable: "Utilizatori",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AnunturiPrestate",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Data = table.Column<DateTime>(nullable: false),
+                    AnuntId = table.Column<Guid>(nullable: false),
+                    UtilizatorId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AnunturiPrestate", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AnunturiPrestate_Anunturi_AnuntId",
+                        column: x => x.AnuntId,
                         principalTable: "Anunturi",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Cautari_Utilizatori_IdUtilizator",
-                        column: x => x.IdUtilizator,
+                        name: "FK_AnunturiPrestate_Utilizatori_UtilizatorId",
+                        column: x => x.UtilizatorId,
+                        principalTable: "Utilizatori",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Feedbacks",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Titlu = table.Column<string>(nullable: false),
+                    Text = table.Column<string>(nullable: false),
+                    NrStele = table.Column<int>(nullable: false),
+                    Data = table.Column<DateTime>(nullable: false),
+                    ServiciuId = table.Column<Guid>(nullable: false),
+                    UtilizatorId = table.Column<Guid>(nullable: false),
+                    AnuntId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Feedbacks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Feedbacks_Anunturi_AnuntId",
+                        column: x => x.AnuntId,
+                        principalTable: "Anunturi",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Feedbacks_Servicii_ServiciuId",
+                        column: x => x.ServiciuId,
+                        principalTable: "Servicii",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Feedbacks_Utilizatori_UtilizatorId",
+                        column: x => x.UtilizatorId,
+                        principalTable: "Utilizatori",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UtilizatoriFavoriti",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    UtilizatorId = table.Column<Guid>(nullable: false),
+                    AnuntId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UtilizatoriFavoriti", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UtilizatoriFavoriti_Anunturi_AnuntId",
+                        column: x => x.AnuntId,
+                        principalTable: "Anunturi",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UtilizatoriFavoriti_Utilizatori_UtilizatorId",
+                        column: x => x.UtilizatorId,
                         principalTable: "Utilizatori",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Anunturi_IdServiciu",
+                name: "IX_Anunturi_ServiciuId",
                 table: "Anunturi",
-                column: "IdServiciu");
+                column: "ServiciuId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Anunturi_IdUtilizator",
+                name: "IX_Anunturi_UtilizatorId",
                 table: "Anunturi",
-                column: "IdUtilizator");
+                column: "UtilizatorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AnunturiPrestate_IdUtilizator",
+                name: "IX_AnunturiPrestate_AnuntId",
                 table: "AnunturiPrestate",
-                column: "IdUtilizator");
+                column: "AnuntId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cautari_IdAnunt",
+                name: "IX_AnunturiPrestate_UtilizatorId",
+                table: "AnunturiPrestate",
+                column: "UtilizatorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cautari_UtilizatorId",
                 table: "Cautari",
-                column: "IdAnunt");
+                column: "UtilizatorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cautari_IdUtilizator",
-                table: "Cautari",
-                column: "IdUtilizator");
+                name: "IX_Feedbacks_AnuntId",
+                table: "Feedbacks",
+                column: "AnuntId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FeedBacks_IdUtilizatorPrimit",
-                table: "FeedBacks",
-                column: "IdUtilizatorPrimit");
+                name: "IX_Feedbacks_ServiciuId",
+                table: "Feedbacks",
+                column: "ServiciuId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UtilizatoriFavoriti_IdUtilizatorFavorit",
+                name: "IX_Feedbacks_UtilizatorId",
+                table: "Feedbacks",
+                column: "UtilizatorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UtilizatoriFavoriti_AnuntId",
                 table: "UtilizatoriFavoriti",
-                column: "IdUtilizatorFavorit");
+                column: "AnuntId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UtilizatoriFavoriti_UtilizatorId",
+                table: "UtilizatoriFavoriti",
+                column: "UtilizatorId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -206,7 +237,7 @@ namespace ProjectLicenta.Web.LicentaApi.Presentation.Migrations
                 name: "Cautari");
 
             migrationBuilder.DropTable(
-                name: "FeedBacks");
+                name: "Feedbacks");
 
             migrationBuilder.DropTable(
                 name: "UtilizatoriFavoriti");
@@ -219,19 +250,6 @@ namespace ProjectLicenta.Web.LicentaApi.Presentation.Migrations
 
             migrationBuilder.DropTable(
                 name: "Utilizatori");
-
-            migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Name = table.Column<string>(type: "longtext CHARACTER SET latin1", nullable: false),
-                    Password = table.Column<string>(type: "longtext CHARACTER SET latin1", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                });
         }
     }
 }

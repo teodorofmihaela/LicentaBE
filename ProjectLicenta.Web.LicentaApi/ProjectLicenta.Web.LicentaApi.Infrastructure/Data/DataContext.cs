@@ -10,7 +10,7 @@ namespace ProjectLicenta.Web.LicentaApi.Infrastructure.Data
         public DbSet<Serviciu> Servicii { get; set; }
         public DbSet<Cautare> Cautari { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
-        public DbSet<UtilizatorFavorit> UtilizatoriFavoriti { get; set; }
+        public DbSet<AnuntFavorit> UtilizatoriFavoriti { get; set; }
         public DbSet<AnuntPrestat> AnunturiPrestate { get; set; }
         public DataContext(DbContextOptions options) : base(options)
         {
@@ -34,48 +34,98 @@ namespace ProjectLicenta.Web.LicentaApi.Infrastructure.Data
 
         private void SetModelRelations(ModelBuilder modelBuilder)
         {
-            // Utilizator has many Anunturi
-            modelBuilder.Entity<Anunt>()
-                .HasOne<Utilizator>(u => u.Utilizator)
-                .WithMany(a => a.AnunturiList)
-                .HasForeignKey(u => u.UtilizatorId);
-            /*
-            // Servicii has many Anunturi
-            modelBuilder.Entity<Anunt>()
-                .HasOne<Serviciu>(s => s.Serviciu)
-                .WithMany(a => a.AnunturiList)
-                .HasForeignKey(a => a.IdServiciu);
-            */
-            // // Utilizator has many FeedBacks
-            // modelBuilder.Entity<Feedback>()
-            //     .HasOne<Utilizator>(u => u.Utilizator)
-            //     .WithMany(f => f.FeedbacksList)
-            //     .HasForeignKey(u => u.IdUtilizatorPrimit);
-            /*
-            // Utilizator has many AnunturiPrestate
-            modelBuilder.Entity<AnuntPrestat>()
-                .HasOne<Utilizator>(u => u.Utilizator)
-                .WithMany(a => a.AnunturiPrestateList)
-                .HasForeignKey(u => u.IdUtilizator);
-            */
-            // // Cautari has many Anunturi
-            // modelBuilder.Entity<Cautare>()
-            //     .HasOne<Anunt>(a => a.Anunturi)
-            //     .WithMany(c => c.CautariList)
-            //     .HasForeignKey(a => a.IdAnunt);
-            /*
-            // Cautari has many Utilizatori
-            modelBuilder.Entity<Cautare>()
-                .HasOne<Utilizator>(u => u.Utilizator)
-                .WithMany(c => c.CautariList)
-                .HasForeignKey(u => u.IdUtilizator);
+            UtilizatorHasManyAnunturi(modelBuilder);
+            ServiciuHasManyAnunturi(modelBuilder);
+            ServiciuHasManyFeedbacks(modelBuilder);
+            UtilizatorGivesManyFeedbacksToAnunturi(modelBuilder);
+            AnuntHasManyCautari(modelBuilder);
+            UtilizatorHasManyCautari(modelBuilder);
+            AnuntHasManyAnunturiPrestate(modelBuilder);
+            UtilizatorHasBoughtManyAnunturiPrestate(modelBuilder);
+            UtilizatorHasManyAnunturiFavorite(modelBuilder);
+        }
+
+        private void UtilizatorHasManyAnunturiFavorite(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<AnuntFavorit>()
+                .HasOne<Utilizator>(a => a.Utilizator)
+                .WithMany(u => u.AnunturiFavoriteList)
+                .HasForeignKey(a => a.UtilizatorId);
             
-            // UtilizatoriFavoriti has many Utilizatori
-            modelBuilder.Entity<UtilizatorFavorit>()
-                .HasOne<Utilizator>(u => u.Utilizator)
-                .WithMany(u => u.UtilizatoriFavoritiList)
-                .HasForeignKey(u => u.IdUtilizatorFavorit);
-        */
+            modelBuilder.Entity<AnuntFavorit>()
+                .HasOne<Anunt>(a => a.Anunt)
+                .WithMany()
+                .HasForeignKey(a => a.AnuntId);
+        }
+
+        private void UtilizatorHasBoughtManyAnunturiPrestate(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<AnuntPrestat>()
+                .HasOne<Utilizator>(a => a.Utilizator)
+                .WithMany(u=>u.AnunturiPrestateList)
+                .HasForeignKey(a => a.UtilizatorId);
+        }
+
+        private void AnuntHasManyAnunturiPrestate(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<AnuntPrestat>()
+                .HasOne<Anunt>(a => a.Anunt)
+                .WithMany()
+                .HasForeignKey(a => a.AnuntId);
+        }
+
+        private void UtilizatorHasManyCautari(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Cautare>()
+                .HasOne<Utilizator>(c => c.Utilizator)
+                .WithMany()
+                .HasForeignKey(c => c.UtilizatorId);
+        }
+
+        private void AnuntHasManyCautari(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Cautare>()
+                .HasOne<Anunt>()
+                .WithMany()
+                .HasForeignKey(c => c.AnuntId);
+        }
+
+        private void UtilizatorHasManyAnunturi(ModelBuilder modelBuilder)
+        {
+            
+            modelBuilder.Entity<Anunt>()
+                .HasOne<Utilizator>(a => a.Utilizator)
+                .WithMany(u => u.AnunturiList)
+                .HasForeignKey(a => a.UtilizatorId);
+        }
+
+        private void UtilizatorGivesManyFeedbacksToAnunturi(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Feedback>()
+                .HasOne<Utilizator>(f => f.Utilizator)
+                .WithMany(u => u.FeedbacksDateList)
+                .HasForeignKey(f => f.UtilizatorId);
+            
+            modelBuilder.Entity<Feedback>()
+                .HasOne<Anunt>(f => f.Anunt)
+                .WithMany()
+                .HasForeignKey(f => f.AnuntId);
+        }
+
+        private void ServiciuHasManyFeedbacks(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Feedback>()
+                .HasOne<Serviciu>(f => f.Serviciu)
+                .WithMany()
+                .HasForeignKey(f => f.ServiciuId);
+        }
+
+        public void ServiciuHasManyAnunturi(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Anunt>()
+                .HasOne<Serviciu>(a => a.Serviciu)
+                .WithMany(s => s.AnunturiList)
+                .HasForeignKey(a => a.ServiciuId);
         }
 
         private void SetIndexes(ModelBuilder modelBuilder)

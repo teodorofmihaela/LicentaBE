@@ -25,20 +25,20 @@ namespace ProjectLicenta.Web.LicentaApi.Core.Services
             _utilizatorFavoritValidator = utilizatorFavoritValidator;
         }
 
-        public async Task<List<UtilizatorFavorit>> GetAllUtilizatoriFavoriti(string toSearch, List<Guid> guids, int pagination = 50, int skip = 0)
+        public async Task<List<AnuntFavorit>> GetAllUtilizatoriFavoriti(string toSearch, List<Guid> guids, int pagination = 50, int skip = 0)
         {
             return await _repository.GetAllUtilizatoriFavoriti(
                 new UtilizatorFavoritFilter() {ToSearch = toSearch, Ids = guids}, pagination, skip);
         }
 
-        public async Task<bool> CreateUtilizatorFavorit(UtilizatorFavorit inputUtilizatorFavorit)
+        public async Task<bool> CreateUtilizatorFavorit(AnuntFavorit inputAnuntFavorit)
         {
-            _utilizatorFavoritValidator.Validate(inputUtilizatorFavorit);
+            _utilizatorFavoritValidator.Validate(inputAnuntFavorit);
             // var nameAlikeUtilizatorFavoritiFavoriti = await _repository.GetAllUtilizatorFavoritiFavoriti(
             //     new UtilizatorFavoritFilter {ToSearch = inputUtilizatorFavorit.Nume,}, MaxPagination);
 
             var idAlikeUtilizatorFavoritiFavoriti = await _repository.GetAllUtilizatoriFavoriti(
-                new UtilizatorFavoritFilter {Ids = new List<Guid>() {inputUtilizatorFavorit.Id}}, MaxPagination);
+                new UtilizatorFavoritFilter {Ids = new List<Guid>() {inputAnuntFavorit.Id}}, MaxPagination);
 
             if (idAlikeUtilizatorFavoritiFavoriti.Any())
                 throw new ApiException
@@ -55,7 +55,7 @@ namespace ProjectLicenta.Web.LicentaApi.Core.Services
             //         Severity = ExceptionSeverity.Error,
             //         Type = ExceptionType.ServiceException
             //     };
-            return await _repository.CreateUtilizatorFavorit(inputUtilizatorFavorit);
+            return await _repository.CreateUtilizatorFavorit(inputAnuntFavorit);
         }
 
         public async Task<bool> DeleteUtilizatorFavorit(string toSearch, List<Guid> guids)
@@ -77,17 +77,17 @@ namespace ProjectLicenta.Web.LicentaApi.Core.Services
             return result;
         }
 
-        public async Task<bool> UpdateUtilizatorFavorit(UtilizatorFavorit inputUtilizatorFavorit)
+        public async Task<bool> UpdateUtilizatorFavorit(AnuntFavorit inputAnuntFavorit)
         {
-            _utilizatorFavoritValidator.Validate(inputUtilizatorFavorit);
+            _utilizatorFavoritValidator.Validate(inputAnuntFavorit);
 
             var sameIdUtilizatorFavoritiFavoriti =
-                await _repository.GetAllUtilizatoriFavoriti(new UtilizatorFavoritFilter {Ids = new List<Guid> {inputUtilizatorFavorit.Id}});
+                await _repository.GetAllUtilizatoriFavoriti(new UtilizatorFavoritFilter {Ids = new List<Guid> {inputAnuntFavorit.Id}});
 
             if (sameIdUtilizatorFavoritiFavoriti.Count != 1)
                 throw new ApiException
                 {
-                    ExceptionMessage = $"UtilizatorFavorit with id {inputUtilizatorFavorit.Id} to update has not been found.",
+                    ExceptionMessage = $"UtilizatorFavorit with id {inputAnuntFavorit.Id} to update has not been found.",
                     Severity = ExceptionSeverity.Error,
                     Type = ExceptionType.ServiceException
                 };
@@ -105,7 +105,7 @@ namespace ProjectLicenta.Web.LicentaApi.Core.Services
             // }
 
             var utilizatorFavorit = sameIdUtilizatorFavoritiFavoriti.First();
-            utilizatorFavorit.UpdateByReflection(inputUtilizatorFavorit);
+            utilizatorFavorit.UpdateByReflection(inputAnuntFavorit);
             return await _repository.UpdateUtilizatorFavorit(utilizatorFavorit);
         }
     }
