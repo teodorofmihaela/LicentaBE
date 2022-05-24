@@ -12,7 +12,7 @@ using ProjectLicenta.Web.LicentaApi.Core.Models;
 namespace ProjectLicenta.Web.LicentaApi.Presentation.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]")] // localhost:port/controller
     public class AnunturiController
     {
         private readonly IAnuntService _service;

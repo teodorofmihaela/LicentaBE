@@ -8,7 +8,7 @@ namespace ProjectLicenta.Web.LicentaApi.Core.Models
         public Guid Id { get; set; }
         public string NumeServiciu { get; set; }
         
-        public List<Anunt> AnunturiList { get; set; }
+        public List<Anunt>? AnunturiList { get; set; }
         
         
     }
